@@ -18,7 +18,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Pass to build script the path to workspace to build
-                sh 'echo ${env.WORKSPACE}'
+                sh "echo ${env.WORKSPACE}"
                 sh 'python3 ci-scripts/02_build_image.py this/is/path'
             }
         }

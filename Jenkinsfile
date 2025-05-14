@@ -9,9 +9,16 @@ pipeline {
             }
         }
 
+        stage('Update SRCREV') {
+            steps {
+                sh 'python3 ci-scripts/01_update_revs.py'
+            }
+        }
+
         stage('Build') {
             steps {
-                echo 'Building..'
+                // Pass to build script the path to workspace to build
+                sh 'python3 ci-scripts/02_build_image.py ${env.WORKSPACE}'
             }
         }
         stage('Test') {

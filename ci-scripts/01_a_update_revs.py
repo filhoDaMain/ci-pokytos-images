@@ -108,7 +108,7 @@ if (n_args != 2):
     print("Usage Error!")
     print("")
     print("Usage:")
-    print("  python3 01_update_revs.py <path-to-host-pokytos-dir>")
+    print("  python3 01_a_update_revs.py <path-to-host-pokytos-dir>")
     print("")
     sys.exit(1)
 

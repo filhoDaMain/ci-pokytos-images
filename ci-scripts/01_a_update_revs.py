@@ -1,6 +1,6 @@
 # MIT License
 #
-# Copyright (c) 2025 André Temprilho
+# Copyright (c) 2025 Andre Temprilho
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -32,25 +32,25 @@ recipes = [
     "pokytos/meta-pokytos/recipes-extended/hellocpp/hellocpp_1.8.bb"
 ]
 
-# Tokens - which strings to look for in each recipe
-TOKEN_REPO_URL  = "REPO_URL\s*=\s*"
-TOKEN_BRANCH    = "BRANCH\s*=\s*"
-TOKEN_SRCREV    = "SRCREV\s*=\s*"
+# Keywords - which strings to look for in each recipe
+KEYWORD_REPO_URL  = "REPO_URL\s*=\s*"
+KEYWORD_BRANCH    = "BRANCH\s*=\s*"
+KEYWORD_SRCREV    = "SRCREV\s*=\s*"
 
 CMD_GIT = "/usr/bin/git"
 CMD_CUT = "/usr/bin/cut"
 
 
 
-# Searches for TOKEN_REPO_URL and TOKEN_BRANCH inside recipe and returns their values
+# Searches for KEYWORD_REPO_URL and KEYWORD_BRANCH inside recipe and returns their values
 def _get_url_and_branch(recipe):
     recipe_url = "undefined"
     recipe_branch = "undefined"
 
     with open (recipe, 'r') as file:
         for line in file:
-            match_url = re.match(f'{TOKEN_REPO_URL}"([^"]+)"', line)
-            match_branch = re.match(f'{TOKEN_BRANCH}"([^"]+)"', line)
+            match_url = re.match(f'{KEYWORD_REPO_URL}"([^"]+)"', line)
+            match_branch = re.match(f'{KEYWORD_BRANCH}"([^"]+)"', line)
 
             if match_url:
                 recipe_url = match_url.group(1)
@@ -93,7 +93,7 @@ def get_latest_srcrev(recipe):
 
 
 
-# Writes srcrev in TOKEN_SRCREV variable from recipe
+# Writes srcrev in KEYWORD_SRCREV variable from recipe
 def write_latest_srcrev(recipe, srcrev):
 
     updated_srcrev_line = f"SRCREV = \"{srcrev}\""
@@ -104,10 +104,10 @@ def write_latest_srcrev(recipe, srcrev):
     with open(recipe, 'w') as file:
         for line in lines:
             line = line.replace("\n", "")
-            match_srcrev = re.match(f'{TOKEN_SRCREV}"([^"]+)"', line)
+            match_srcrev = re.match(f'{KEYWORD_SRCREV}"([^"]+)"', line)
 
             if match_srcrev:
-                # Line starts with token.
+                # Line starts with KEYWORD_SRCREV.
                 # Let's check if the SRCREV diffs from previous value
                 if line != updated_srcrev_line:
                     file.write(updated_srcrev_line + '\n')
